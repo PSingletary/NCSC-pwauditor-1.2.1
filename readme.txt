@@ -15,15 +15,15 @@ This script requires Windows Management Framework 3.0 (often installed by defaul
 
 <#
 .SYNOPSIS
-A password audit tool that checks hashes of passwords in AD against weak passwords in blacklists, and looks for duplicated passwords
+A password audit tool that checks hashes of passwords in AD against weak passwords in deny lists, and looks for duplicated passwords
         
 .DESCRIPTION
-The script checks how many user accounts use a password in the blacklist, how many users that have
+The script checks how many user accounts use a password in the deny list, how many users that have
 passwords that never expire and how many passwords are reused between users. This information 
-is given for each blacklist file provided.
+is given for each deny list file provided.
         
-.PARAMETER blacklists
-Blacklist files, including paths, to use. If nothing is provided script shall search localy for top_10.txt, top_100.txt, top_10000.txt and top_10_augmented.txt
+.PARAMETER deny list
+Deny list files, including paths, to use. If nothing is provided script shall search localy for top_10.txt, top_100.txt, top_10000.txt and top_10_augmented.txt
         
 .PARAMETER DC
 The domain controller domain name e.g. password.com
@@ -41,16 +41,16 @@ The AD account type (e.g. 'User'), default is User
 
 .PARAMTER unsuppress - Optional
 Changes the output to show detailed results that includes:
-* all accounts that share same password and if that password is blacklisted
-* all accounts that have a weak password (one in blacklist) including plaintext password
+* all accounts that share same password and if that password is deny listed
+* all accounts that have a weak password (one in deny list) including plaintext password
         
 .EXAMPLE 
 .\pwauditor -DC PW.com -NC "dc=pw,dc=com" -organisation NCSC
-Script will look for the following blacklist in the same path as it
+Script will look for the following deny list in the same path as it
 top_10.txt, top_100.txt, top_10000.txt
 Result is count of weak passwords and duplicated passwords both to screen and to text file 
     Results for file: top_10000.txt
-    Number of blacklisted passwords used : 12
+    Number of deny list passwords used : 12
     Number of duplicated passwords       : 5
     - Number of duplications of password 1 : 2
     - Number of duplications of password 2 : 3
@@ -62,7 +62,7 @@ Time to run:  1140 ms
 
 .EXAMPLE
 .\pwauditor -DC PW.com -NC "dc=pw,dc=com" -blacklists top_10.txt,top100.txt,top_1000.txt,top_10_augmented.txt -organisation NCSC
-If you want to specify your own blacklist files then use the -blacklists argument
+If you want to specify your own deny list files then use the -blacklists argument
     
 .NOTES
 Must be run with admin privilages on the Domain Controller
